@@ -1,0 +1,15 @@
+sudo:required
+services:
+  - docker
+
+before_install:
+  - docker build -t eggjr/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true eggjr/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t eggjr/multi-client ./client
+  - docker build -t eggjr/multi-nginx ./nginx
+  - docker build -t eggjr/multi-server ./server
+  - docker build -t eggjr/multi-worker ./worker
