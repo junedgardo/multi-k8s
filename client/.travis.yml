@@ -13,3 +13,11 @@ after_success:
   - docker build -t eggjr/multi-nginx ./nginx
   - docker build -t eggjr/multi-server ./server
   - docker build -t eggjr/multi-worker ./worker
+
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take images and push to Dockerhub
+  - docker push eggjr/multi-client
+  - docker push eggjr/multi-nginx
+  - docker push eggjr/multi-server
+  - docker push eggjr/multi-worker
